@@ -1,4 +1,4 @@
-import { Button, Card, Text } from "@mantine/core";
+import { Button, Card, Group, Text } from "@mantine/core";
 import React from "react";
 
 interface PostCardProps {
@@ -6,9 +6,16 @@ interface PostCardProps {
   title: string;
   body: string;
   onEdit: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ title, body, id, onEdit }) => {
+const PostCard: React.FC<PostCardProps> = ({
+  title,
+  body,
+  id,
+  onEdit,
+  onDelete,
+}) => {
   return (
     <Card withBorder>
       <Text fw={500}>{title}</Text>
@@ -16,15 +23,29 @@ const PostCard: React.FC<PostCardProps> = ({ title, body, id, onEdit }) => {
       <Text size="sm" c="dimmed">
         {body}
       </Text>
-      <Button
-        mt="md"
-        variant="outline"
-        onClick={() => {
-          onEdit(id);
-        }}
-      >
-        Edit
-      </Button>
+      <Group>
+        <Button
+          mt="md"
+          variant="outline"
+          onClick={() => {
+            onEdit(id);
+          }}
+        >
+          Edit
+        </Button>
+        <Button
+          mt="md"
+          variant="outline"
+          color="red"
+          onClick={() => {
+            if (onDelete) {
+              onDelete(id);
+            }
+          }}
+        >
+          Delete
+        </Button>
+      </Group>
     </Card>
   );
 };

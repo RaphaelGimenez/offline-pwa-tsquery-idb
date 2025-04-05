@@ -32,6 +32,14 @@ const Posts: React.FC<PostsProps> = () => {
       });
     },
   });
+  const deletePost = useMutation({
+    mutationFn: postApi.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: postQueries.all(),
+      });
+    },
+  });
 
   const postToEdit = posts.data?.find((p) => p.id === editId);
 
@@ -60,6 +68,10 @@ const Posts: React.FC<PostsProps> = () => {
         userId: 1,
       });
     }
+  };
+
+  const handleDelete = (id: number) => {
+    deletePost.mutate(id);
   };
 
   const initialValues = {
@@ -95,7 +107,12 @@ const Posts: React.FC<PostsProps> = () => {
       )}
 
       {posts.data?.map((post) => (
-        <PostCard key={post.id} onEdit={handleEdit} {...post} />
+        <PostCard
+          key={post.id}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          {...post}
+        />
       ))}
     </Stack>
   );

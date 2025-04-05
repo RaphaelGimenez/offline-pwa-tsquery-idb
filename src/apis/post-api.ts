@@ -52,4 +52,7 @@ export const postApi = {
   }) => {
     return apiClient.put(`posts/${data.id}`, { json: data }).json();
   },
+  delete: (id: number) => {
+    return apiClient.delete(`posts/${id}`).json();
+  },
 };
